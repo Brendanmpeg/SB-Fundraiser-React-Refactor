@@ -1,10 +1,12 @@
 
 import ChatBox from "./ChatBox";
-import BoardButton from "./BoardButton";
+import BoardButton from "./BoardActionButton";
+import { useState } from "react";
+import * as Utils from "Utils/BoardUtils";
 
 /* This Component represents a single board for the fundraiser. This board consists of a title, a delete button, 100 Box components, and 2 BoardButton Components */
 // TODO: 
-//  - Implement the logic for chosing board state (Assign/Sell)
+//  - Implement the logic for chosing board state (Assign/Sell) Done!
 //    - An Idea to play with: when a mode is selected, change the other button to be a submit button instead of adding the submit button
 //  - Implement the logic for selecting boxes, and unselecting boxes
 //  - Implement the logic for clearing the selected boxes when the mode changes back to default
@@ -19,10 +21,11 @@ import BoardButton from "./BoardButton";
 export default function ChatBoard() {
   // Create an array of numbers 1–100
   const boxes = Array.from({ length: 100 }, (_, i) => i + 1);
+  const [BoardState, setBoardState] = useState<string>("Status")
 
   return (
 
-    <div /*Outter Container*/ className="relative flex flex-col items-center p-4 w-[40%] sm:w-[60] md:w-[50%] lg:w-[25%] max-w-[450]">
+    <div /*Outter Container*/ className="relative flex flex-col items-center p-4 max-w-[500px] w-[90%] sm:w-[60%] md:w-[50%] lg:w-[25%]">
       <div /*Header container*/ className="relative w-full flex items-center justify-center mb-1">
         <h1 /*Title*/ className="text-2xl font-bold text-blue-600 text-center">
           Fundraiser Board
@@ -53,8 +56,8 @@ export default function ChatBoard() {
         flex justify-center gap-2 mt-2
       "
       >
-        <BoardButton label="Assign" />
-        <BoardButton label="Sell" />
+        <BoardButton label="Assign" eventHandler={Utils.createBoardButtonHandler(setBoardState, "Assign", BoardState)} isActive={BoardState==="Assign"} />
+        <BoardButton label="Sell" eventHandler={Utils.createBoardButtonHandler(setBoardState, "Sell", BoardState)} isActive={BoardState==="Sell"}/>
       </div>
     </div>
   );

@@ -1,0 +1,1 @@
+//This route is a page to display all the different states of the Submit Card feature when assigning or selling boxes 
