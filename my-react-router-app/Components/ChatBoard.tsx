@@ -1,7 +1,7 @@
 
 import ChatBox from "./ChatBox";
 import BoardButton from "./BoardActionButton";
-import { useState } from "react";
+import { useState, useEffect} from "react";
 import * as Utils from "Utils/BoardUtils";
 
 /* This Component represents a single board for the fundraiser. This board consists of a title, a delete button, 100 Box components, and 2 BoardButton Components */
@@ -20,10 +20,24 @@ import * as Utils from "Utils/BoardUtils";
 
 export default function ChatBoard() {
   
-  // const BoardSnapshot = Array(100).fill(Utils.BoxRecord)
-  // Create an array of numbers 1–100
-  const boxes = Array.from({ length: 100 }, (_, i) => i + 1);
-  const [BoardState, setBoardState] = useState<string>("Status")
+  const initialBoxes: Array<Utils.BoxRecord>= Array.from(
+    { length: 100 }, 
+    (_, index) => [index + 1, "Unassigned"]
+  );
+  
+  const [boardState, setBoardState] = useState<string>("Status");
+  const [boxesState, setBoxesState] = useState<Array<Utils.BoxRecord>>(initialBoxes);
+  
+  // Snapshot is created once with initialBoxes, only updated on submission
+  const [boxSnapshot, setBoxSnapshot] = useState<Array<Utils.BoxRecord>>(initialBoxes);
+
+  // Restore snapshot when returning to "Status"
+  useEffect(() => {
+    if (boardState === "Status") {
+      setBoxesState([...boxSnapshot]);
+    }
+  }, [boardState, boxSnapshot]);
+
 
   return (
 
@@ -50,17 +64,17 @@ export default function ChatBoard() {
           border border-gray-400 rounded-md overflow-hidden bg-gray-100
         "
       >
-        {boxes.map((num) => (
-          <ChatBox key={num} Id={num} Status="Unassigned" />
+        {boxesState.map((box) => (
+          <ChatBox key={box[0]} Id={box[0]} Status={box[1]} eventHandler={Utils.createBoxHandler(setBoxesState, box, boardState)} />
         ))}
       </div>
       <div /*Buttons container for assign and sell buttons*/ className="*
         flex justify-center gap-2 mt-2
       "
       >
-        <BoardButton label="Assign" eventHandler={Utils.createBoardButtonHandler(setBoardState, "Assign", BoardState)} BoardState={BoardState} />
-        <BoardButton label="Sell" eventHandler={Utils.createBoardButtonHandler(setBoardState, "Sell", BoardState)} BoardState={BoardState}/>
-        <BoardButton label="Submit" eventHandler={Utils.createBoardButtonHandler(setBoardState, "Submit", BoardState)} BoardState={BoardState}/>
+        <BoardButton label="Open" eventHandler={Utils.createBoardButtonHandler(setBoardState, "Open", boardState, boxesState, setBoxSnapshot)} BoardState={boardState} />
+        <BoardButton label="Sell" eventHandler={Utils.createBoardButtonHandler(setBoardState, "Sell", boardState, boxesState, setBoxSnapshot)} BoardState={boardState}/>
+        <BoardButton label="Submit" eventHandler={Utils.createBoardButtonHandler(setBoardState, "Submit", boardState, boxesState, setBoxSnapshot)} BoardState={boardState}/>
       </div>
     </div>
   );

@@ -1,10 +1,10 @@
-export default function ChatBox({
-  Id,
-  Status,
-}: {
-  Id: number;
-  Status: string;
-}) {
+type BoxProps = {
+  Id: number
+  Status: string
+  eventHandler?: () => void;
+}
+
+export default function ChatBox({Id, Status, eventHandler}: BoxProps) {
   const statusStyles: Record<string, string> = {
     Unassigned: "bg-gray-200 text-gray-600",
     Assigned: "bg-slate-400 text-black",
@@ -15,6 +15,7 @@ export default function ChatBox({
 
   return (
     <div
+      onClick={eventHandler}
       className={`
         flex items-center justify-center text-sm font-medium
         aspect-square border border-gray-900

@@ -1,6 +1,6 @@
 type BoardButtonProps = {
   label: string;
-  eventHandler?: () => void; // optional callback
+  eventHandler: () => void; // optional callback
   BoardState: string;   // optional styling flag
 };
 
