@@ -6,8 +6,8 @@ import * as Utils from "Utils/BoardUtils";
 
 /* This Component represents a single board for the fundraiser. This board consists of a title, a delete button, 100 Box components, and 2 BoardButton Components */
 // TODO: 
-//  - Implement the logic for chosing board state (Assign/Sell) Done!
-//    - An Idea to play with: when a mode is selected, change the other button to be a submit button instead of adding the submit button
+//  - Done! Implement the logic for chosing board state (Assign/Sell)
+//    - Done! An Idea to play with: when a mode is selected, change the other button to be a submit button instead of adding the submit button
 //  - Implement the logic for selecting boxes, and unselecting boxes
 //  - Implement the logic for clearing the selected boxes when the mode changes back to default
 //    - An Idea to play with: hold a snapshot of the boces state and update it when actions(form submission) are taken. 
@@ -19,6 +19,8 @@ import * as Utils from "Utils/BoardUtils";
 //    - Look into how to make a modal with the Daisy UI component
 
 export default function ChatBoard() {
+  
+  // const BoardSnapshot = Array(100).fill(Utils.BoxRecord)
   // Create an array of numbers 1–100
   const boxes = Array.from({ length: 100 }, (_, i) => i + 1);
   const [BoardState, setBoardState] = useState<string>("Status")
@@ -56,8 +58,9 @@ export default function ChatBoard() {
         flex justify-center gap-2 mt-2
       "
       >
-        <BoardButton label="Assign" eventHandler={Utils.createBoardButtonHandler(setBoardState, "Assign", BoardState)} isActive={BoardState==="Assign"} />
-        <BoardButton label="Sell" eventHandler={Utils.createBoardButtonHandler(setBoardState, "Sell", BoardState)} isActive={BoardState==="Sell"}/>
+        <BoardButton label="Assign" eventHandler={Utils.createBoardButtonHandler(setBoardState, "Assign", BoardState)} BoardState={BoardState} />
+        <BoardButton label="Sell" eventHandler={Utils.createBoardButtonHandler(setBoardState, "Sell", BoardState)} BoardState={BoardState}/>
+        <BoardButton label="Submit" eventHandler={Utils.createBoardButtonHandler(setBoardState, "Submit", BoardState)} BoardState={BoardState}/>
       </div>
     </div>
   );

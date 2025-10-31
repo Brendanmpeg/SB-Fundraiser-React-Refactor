@@ -1,11 +1,15 @@
-import { useState } from "react";
-
+export let BoxRecord: [Id: number, State: string]
 
 export function HandleBoardButtonClick(setBoardState: React.Dispatch<React.SetStateAction<string>>,givenState: string, BoardState: string): void { 
-if (givenState === BoardState) {
+    console.log(`given state = ${givenState}`)
+    if (givenState === "Submit") {
+        //Handle for submission details here
+        return
+    }
+    else if (givenState === BoardState) {
     setBoardState("Status")
 } 
-else{
+    else{
     setBoardState(givenState);
 }
 }
