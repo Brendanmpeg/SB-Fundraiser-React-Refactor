@@ -1,4 +1,3 @@
-
 import ChatBox from "./ChatBox";
 import BoardButton from "./BoardActionButton";
 import { useState, useEffect} from "react";
@@ -6,12 +5,6 @@ import * as Utils from "Utils/BoardUtils";
 
 /* This Component represents a single board for the fundraiser. This board consists of a title, a delete button, 100 Box components, and 2 BoardButton Components */
 // TODO: 
-//  - Done! Implement the logic for chosing board state (Assign/Sell)
-//    - Done! An Idea to play with: when a mode is selected, change the other button to be a submit button instead of adding the submit button
-//  - Implement the logic for selecting boxes, and unselecting boxes
-//  - Implement the logic for clearing the selected boxes when the mode changes back to default
-//    - An Idea to play with: hold a snapshot of the boces state and update it when actions(form submission) are taken. 
-//      if the boards state changes without an action reset the board to the previous snapshot
 //  - Implement the logic for retrieving box states from the server and rendering the boxes correct states
 //  - Implement the logic for completing actions (form submission)
 //  - Implement the logic for Showing the box information when a box is clicked on in the default state
@@ -22,8 +15,11 @@ export default function ChatBoard() {
   
   const initialBoxes: Array<Utils.BoxRecord>= Array.from(
     { length: 100 }, 
-    (_, index) => [index + 1, "Unassigned"]
+    (_, index) => [index + 1, "Assigned"]
   );
+
+  initialBoxes[68] = [69, "Open"];
+  initialBoxes[12] = [13, "Sell"];
   
   const [boardState, setBoardState] = useState<string>("Status");
   const [boxesState, setBoxesState] = useState<Array<Utils.BoxRecord>>(initialBoxes);
@@ -65,7 +61,7 @@ export default function ChatBoard() {
         "
       >
         {boxesState.map((box) => (
-          <ChatBox key={box[0]} Id={box[0]} Status={box[1]} eventHandler={Utils.createBoxHandler(setBoxesState, box, boardState)} />
+          <ChatBox key={box[0]} Id={box[0]} Status={box[1]} eventHandler={Utils.createBoxHandler(setBoxesState, box, boardState, boxSnapshot)} />
         ))}
       </div>
       <div /*Buttons container for assign and sell buttons*/ className="*

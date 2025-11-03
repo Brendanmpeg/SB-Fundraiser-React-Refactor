@@ -37,8 +37,8 @@ export function createBoardButtonHandler(
     return () => HandleBoardButtonClick(setBoardState, givenState, boardState, boxesState, setBoxSnapshot);
 }
 
-export function createBoxHandler(setBoxState: React.Dispatch<React.SetStateAction<Array<BoxRecord>>>, Box: BoxRecord, BoardState: string) {
-return () => HandleBoxClick(setBoxState, Box, BoardState);
+export function createBoxHandler(setBoxState: React.Dispatch<React.SetStateAction<Array<BoxRecord>>>, Box: BoxRecord, BoardState: string,  Snapshot: Array<BoxRecord>) {
+return () => HandleBoxClick(setBoxState, Box, BoardState, Snapshot);
 }
 
 // This function is for the management of board state via snapshots. The management of snapshots will consist of X actions.
@@ -50,33 +50,44 @@ export function ManageSnapshot() {
 
 // This function takes a react state setter, a number, a string for the new state, a string for the current state.
 // It checks the state for operation validity, and updates the state of the box for submission
-export function HandleBoxClick(setBoxState: React.Dispatch<React.SetStateAction<Array<BoxRecord>>>, Box: BoxRecord, givenState: string,) {
+export function HandleBoxClick(setBoxState: React.Dispatch<React.SetStateAction<Array<BoxRecord>>>, Box: BoxRecord, givenState: string, Snapshot: Array<BoxRecord>) {
     const Id = Box[0];
-
+    let retBox: BoxRecord;
     switch (givenState) {
         case "Sell":
             // mark the box as sold
-            if (Box[1] === "Sell" || Box[1] === "Paid") {
-                break
+            if (Box[1] === "Sold") {
+                retBox = Snapshot[Id-1];
             }
+            else if (Box[1] !== "Open" && Box[1] !== "Assigned") {
+                break;
+            }
+            else {
+                retBox = [Id, "Sold"];
+            }
+            console.log(`Return box = ${retBox}`);
             setBoxState(CurrentBoxesState => {
                 const newState = [...CurrentBoxesState];
-                newState[Id-1] = [Id, "Sold"];
-                return newState
+                newState[Id-1] = retBox;
+                return newState;
             })
-            console.log("State is Sell")
             break
         case "Open":
             // mark the box as open
-            if (Box[1] !== "Unassigned" && Box[1] !== "Assigned") {
-                break
+            if (Box[1] === "Open") {
+                retBox = Snapshot[Id-1];
+            }
+            else if (Box[1] !== "Unassigned" && Box[1] !== "Assigned") {
+                break;
+            }
+            else {
+                retBox = [Id, "Open"];
             }
             setBoxState(CurrentBoxesState => {
                 const newState = [...CurrentBoxesState];
-                newState[Id-1] = [Id, "Open"];
-                return newState
+                newState[Id-1] = retBox;
+                return newState;
             })
-            console.log("State is Open")
             break
     }
 }
