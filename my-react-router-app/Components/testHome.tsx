@@ -1,5 +1,5 @@
 import Board from "./Board"
-import ChatBoard from "./ChatBoard"
+import ChatBoard from "./Board"
 
 export default function HomePage() {
     return <>
@@ -8,7 +8,7 @@ export default function HomePage() {
     <div className="flex justify-center flex-wrap" 
     >
     <ChatBoard />
-    {/* <ChatBoard /> */}
+    <ChatBoard />
     
     </div>
 

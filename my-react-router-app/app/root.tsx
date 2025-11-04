@@ -45,10 +45,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
 export default function App() {
   return (
   <> {/* This fragment allows us to have UI elements independent from the route being displayed, such as a navebar */}
-    <nav>
+    <nav className="bg-blue-600 text-white p-4 gap-4">
       {" "}
-      <NavLink to="/"> Home </NavLink>
-      <NavLink to="/Stats"> Stats </NavLink>
+      <NavLink className="border-2 border-gray-600" to="/"> Home </NavLink>
+      <NavLink className="border-2 border-gray-600" to="/Stats"> Stats </NavLink>
     </nav>
     <Outlet />
   </>

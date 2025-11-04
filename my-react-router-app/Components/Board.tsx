@@ -1,142 +1,77 @@
-import { useState } from 'react'
-import Box from 'Components/Box'
+import Box from "./Box";
+import BoardButton from "./BoardActionButton";
+import { useState, useEffect} from "react";
+import * as Utils from "Utils/BoardUtils";
 
-export default function Board() {
+/* This Component represents a single board for the fundraiser. This board consists of a title, a delete button, 100 Box components, and 2 BoardButton Components */
+// TODO: 
+//  - Implement the logic for retrieving box states from the server and rendering the boxes correct states
+//  - Implement the logic for completing actions (form submission)
+//  - Implement the logic for Showing the box information when a box is clicked on in the default state
+//    - Look int the Daisy UI "Card" Component to show all the information
+//    - Look into how to make a modal with the Daisy UI component
 
-    const [Status, useStatus] = useState("")
-    
-    function handleBoxClick ({BoxId}: {BoxId: number}) {
+export default function Board(/* BoardId: number */) {
+  
+  const initialBoxes: Array<Utils.BoxRecord>= Array.from(
+    { length: 100 }, 
+    (_, index) => [index + 1, "Assigned"]
+  );
 
+  initialBoxes[68] = [69, "Open"];
+  initialBoxes[12] = [13, "Sold"];
+  
+  const [boardState, setBoardState] = useState<string>("Status");
+  const [boxesState, setBoxesState] = useState<Array<Utils.BoxRecord>>(initialBoxes);
+  
+  // Snapshot is created once with initialBoxes, only updated on submission
+  const [boxSnapshot, setBoxSnapshot] = useState<Array<Utils.BoxRecord>>(initialBoxes);
+
+  // Restore snapshot when returning to "Status"
+  useEffect(() => {
+    if (boardState === "Status") {
+      setBoxesState([...boxSnapshot]);
     }
-    
-    return <>
-    <div>
-        {/* This div is for the board 'Title' and remove button */}
+  }, [boardState, boxSnapshot]);
+
+
+  return (
+
+    <div /*Outter Container*/ className="relative flex flex-col items-center p-4 max-w-[450px] w-[90%] sm:w-[70%] md:w-[60%] lg:w-[45%]">
+      <div /*Header container*/ className="relative w-full flex items-center justify-center mb-1">
+        <h1 /*Title*/ className="text-2xl font-bold text-blue-600 text-center">
+          Fundraiser Board
+        </h1>
+        <button /*Delete Button*/ className="
+            absolute right-0
+            text-black hover:bg-red-600 rounded hover:text-white
+            text-xl font-bold leading-none
+            transition text-center p-1
+          "
+          aria-label="Close board"
+        >
+          &times;
+        </button>
+      </div>
+
+      <div /*Board/Grid*/ className="
+          grid grid-cols-10 gap-0
+          w-full
+          border border-gray-400 rounded-md overflow-hidden bg-gray-100
+        "
+      >
+        {boxesState.map((box) => (
+          <Box key={box[0]} Id={box[0]} Status={box[1]} eventHandler={Utils.createBoxHandler(setBoxesState, box, boardState, boxSnapshot)} />
+        ))}
+      </div>
+      <div /*Buttons container for assign and sell buttons*/ className="*
+        flex justify-center gap-2 mt-2
+      "
+      >
+        <BoardButton label="Open" eventHandler={Utils.createBoardButtonHandler(setBoardState, "Open", boardState, boxesState, setBoxSnapshot)} BoardState={boardState} />
+        <BoardButton label="Sell" eventHandler={Utils.createBoardButtonHandler(setBoardState, "Sell", boardState, boxesState, setBoxSnapshot)} BoardState={boardState}/>
+        <BoardButton label="Submit" eventHandler={Utils.createBoardButtonHandler(setBoardState, "Submit", boardState, boxesState, setBoxSnapshot)} BoardState={boardState}/>
+      </div>
     </div>
-    <table className='table-auto border-collapse border border-black-400 mx-auto'>
-        <caption className='caption-top'>Board 1</caption>
-        <tbody>
-        <tr>
-            <Box Id = {1} Status='Unassigned'/>
-            <Box Id = {2} Status='Open'/>
-            <Box Id = {3} Status='Sold'/>
-            <Box Id = {4} Status='Paid'/>
-            <Box Id = {5} Status='Assigned'/>
-            <Box Id = {6} Status='Assigned'/>
-            <Box Id = {7} Status='Assigned'/>
-            <Box Id = {8} Status='Assigned'/>
-            <Box Id = {9} Status='Assigned'/>
-            <Box Id = {10} Status='Assigned'/>
-        </tr>
-        <tr>
-            <Box Id = {11} Status='Assigned'/>
-            <Box Id = {12} Status='Assigned'/>
-            <Box Id = {13} Status='Assigned'/>
-            <Box Id = {14} Status='Assigned'/>
-            <Box Id = {15} Status='Assigned'/>
-            <Box Id = {16} Status='Assigned'/>
-            <Box Id = {17} Status='Assigned'/>
-            <Box Id = {18} Status='Assigned'/>
-            <Box Id = {19} Status='Assigned'/>
-            <Box Id = {20} Status='Assigned'/>
-        </tr>
-        <tr>
-            <Box Id = {21} Status='Assigned'/>
-            <Box Id = {22} Status='Assigned'/>
-            <Box Id = {23} Status='Assigned'/>
-            <Box Id = {24} Status='Assigned'/>
-            <Box Id = {25} Status='Assigned'/>
-            <Box Id = {26} Status='Assigned'/>
-            <Box Id = {27} Status='Assigned'/>
-            <Box Id = {28} Status='Assigned'/>
-            <Box Id = {29} Status='Assigned'/>
-            <Box Id = {30} Status='Assigned'/>
-        </tr>
-        <tr>
-            <Box Id = {31} Status='Assigned'/>
-            <Box Id = {32} Status='Assigned'/>
-            <Box Id = {33} Status='Assigned'/>
-            <Box Id = {34} Status='Assigned'/>
-            <Box Id = {35} Status='Assigned'/>
-            <Box Id = {36} Status='Assigned'/>
-            <Box Id = {37} Status='Assigned'/>
-            <Box Id = {38} Status='Assigned'/>
-            <Box Id = {39} Status='Assigned'/>
-            <Box Id = {40} Status='Assigned'/>
-        </tr>
-        <tr>
-            <Box Id = {41} Status='Assigned'/>
-            <Box Id = {42} Status='Assigned'/>
-            <Box Id = {43} Status='Assigned'/>
-            <Box Id = {44} Status='Assigned'/>
-            <Box Id = {45} Status='Assigned'/>
-            <Box Id = {46} Status='Assigned'/>
-            <Box Id = {47} Status='Assigned'/>
-            <Box Id = {48} Status='Assigned'/>
-            <Box Id = {49} Status='Assigned'/>
-            <Box Id = {50} Status='Assigned'/>
-        </tr>
-                <tr>
-            <Box Id = {51} Status='Assigned'/>
-            <Box Id = {52} Status='Assigned'/>
-            <Box Id = {53} Status='Assigned'/>
-            <Box Id = {54} Status='Assigned'/>
-            <Box Id = {55} Status='Assigned'/>
-            <Box Id = {56} Status='Assigned'/>
-            <Box Id = {57} Status='Assigned'/>
-            <Box Id = {58} Status='Assigned'/>
-            <Box Id = {59} Status='Assigned'/>
-            <Box Id = {60} Status='Assigned'/>
-        </tr>
-        <tr>
-            <Box Id = {61} Status='Assigned'/>
-            <Box Id = {62} Status='Assigned'/>
-            <Box Id = {63} Status='Assigned'/>
-            <Box Id = {64} Status='Assigned'/>
-            <Box Id = {65} Status='Assigned'/>
-            <Box Id = {66} Status='Assigned'/>
-            <Box Id = {67} Status='Assigned'/>
-            <Box Id = {68} Status='Assigned'/>
-            <Box Id = {69} Status='Assigned'/>
-            <Box Id = {70} Status='Assigned'/>
-        </tr>
-        <tr>
-            <Box Id = {71} Status='Assigned'/>
-            <Box Id = {72} Status='Assigned'/>
-            <Box Id = {73} Status='Assigned'/>
-            <Box Id = {74} Status='Assigned'/>
-            <Box Id = {75} Status='Assigned'/>
-            <Box Id = {76} Status='Assigned'/>
-            <Box Id = {77} Status='Assigned'/>
-            <Box Id = {78} Status='Assigned'/>
-            <Box Id = {79} Status='Assigned'/>
-            <Box Id = {80} Status='Assigned'/>
-        </tr>
-        <tr>
-            <Box Id = {81} Status='Assigned'/>
-            <Box Id = {82} Status='Assigned'/>
-            <Box Id = {83} Status='Assigned'/>
-            <Box Id = {84} Status='Assigned'/>
-            <Box Id = {85} Status='Assigned'/>
-            <Box Id = {86} Status='Assigned'/>
-            <Box Id = {87} Status='Assigned'/>
-            <Box Id = {88} Status='Assigned'/>
-            <Box Id = {89} Status='Assigned'/>
-            <Box Id = {90} Status='Assigned'/>
-        </tr>
-        <tr>
-            <Box Id = {91} Status='Assigned'/>
-            <Box Id = {92} Status='Assigned'/>
-            <Box Id = {93} Status='Assigned'/>
-            <Box Id = {94} Status='Assigned'/>
-            <Box Id = {95} Status='Assigned'/>
-            <Box Id = {96} Status='Assigned'/>
-            <Box Id = {97} Status='Assigned'/>
-            <Box Id = {98} Status='Assigned'/>
-            <Box Id = {99} Status='Assigned'/>
-            <Box Id = {100} Status='Assigned'/>
-        </tr>
-        </tbody>
-    </table>
-    </>
+  );
 }
