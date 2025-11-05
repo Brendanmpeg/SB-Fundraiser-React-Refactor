@@ -1,7 +1,7 @@
 type BoxProps = {
   Id: number
   Status: string
-  eventHandler?: () => void;
+  eventHandler: () => void;
 }
 
 export default function Box({Id, Status, eventHandler}: BoxProps) {

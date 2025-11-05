@@ -61,16 +61,16 @@ export default function Board(/* BoardId: number */) {
         "
       >
         {boxesState.map((box) => (
-          <Box key={box[0]} Id={box[0]} Status={box[1]} eventHandler={Utils.createBoxHandler(setBoxesState, box, boardState, boxSnapshot)} />
+          <Box key={box[0]} Id={box[0]} Status={box[1]} eventHandler={() => setBoxesState(Utils.HandleBoxClick([box[0], box[1]], boardState, boxesState))} />
         ))}
       </div>
       <div /*Buttons container for assign and sell buttons*/ className="*
         flex justify-center gap-2 mt-2
       "
       >
-        <BoardButton label="Open" eventHandler={Utils.createBoardButtonHandler(setBoardState, "Open", boardState, boxesState, setBoxSnapshot)} BoardState={boardState} />
-        <BoardButton label="Sell" eventHandler={Utils.createBoardButtonHandler(setBoardState, "Sell", boardState, boxesState, setBoxSnapshot)} BoardState={boardState}/>
-        <BoardButton label="Submit" eventHandler={Utils.createBoardButtonHandler(setBoardState, "Submit", boardState, boxesState, setBoxSnapshot)} BoardState={boardState}/>
+        <BoardButton label="Open" eventHandler={() => setBoardState(Utils.HandleBoardButtonClick("Open", boardState))} BoardState={boardState} />
+        <BoardButton label="Sell" eventHandler={() => setBoardState(Utils.HandleBoardButtonClick("Sell", boardState))} BoardState={boardState}/>
+        <BoardButton label="Submit" eventHandler={() => setBoardState(Utils.HandleBoardButtonClick("Submit", boardState))} BoardState={boardState}/>
       </div>
     </div>
   );

@@ -2,6 +2,7 @@ import Board from "Components/Board";
 import DisplayBox from "Components/DisplayBox";
 
 export default function HomePage() {
+  const boardsArray: Array<string> = [];
   return (
     <div className="min-h-screen flex flex-col bg-[#FFF8EB]">
 
@@ -13,7 +14,7 @@ export default function HomePage() {
       {/* Main Body - Two Sections */}
       <main className="flex-1 flex">
         {/* Left Sidebar */}
-        <aside className="w-20% lg:w-[280px] bg-[#FFF8EB] p-4 border-r-4 border-blue-600">
+        <aside className="w-20% lg:w-[280px] bg-[#FFF8EB] p-4 border-r-3 border-blue-600">
           <h3 className="text-lg font-semibold mb-4">Legend</h3>
           
           {/* Color Key */}
@@ -46,7 +47,7 @@ export default function HomePage() {
               Create Board
             </button>
             <button className="w-full bg-gray-200 text-black py-2 px-4 rounded hover:bg-green-600">
-              Export Data
+              Create Board
             </button>
           </div>
         </aside>

@@ -1,7 +1,6 @@
 
 
-export function createBoardButtonHandler(Id: number, Color: string) 
-//   Name: React.Dispatch<React.SetStateAction<type>>
+export function createBoardButtonHandler(Id: number, Color: string, Boards: Array<string>) 
   {
     // return () => ();
     // come here to implement the handler for adding boards 
