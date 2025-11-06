@@ -2,6 +2,12 @@ import Box from "./Box";
 import BoardButton from "./BoardActionButton";
 import { useState, useEffect} from "react";
 import * as Utils from "Utils/BoardUtils";
+import type { BoardRecord } from "Utils/HomepageUtils";
+
+type BoardProps = {
+  Board: BoardRecord
+  Remove: (board: BoardRecord) => void;
+}
 
 /* This Component represents a single board for the fundraiser. This board consists of a title, a delete button, 100 Box components, and 2 BoardButton Components */
 // TODO: 
@@ -11,13 +17,14 @@ import * as Utils from "Utils/BoardUtils";
 //    - Look int the Daisy UI "Card" Component to show all the information
 //    - Look into how to make a modal with the Daisy UI component
 
-export default function Board(/* BoardId: number */) {
+
+export default function Board({Board, Remove}: BoardProps) {
   
   const initialBoxes: Array<Utils.BoxRecord>= Array.from(
     { length: 100 }, 
     (_, index) => [index + 1, "Assigned"]
   );
-
+  
   initialBoxes[68] = [69, "Open"];
   initialBoxes[12] = [13, "Sold"];
   
@@ -49,6 +56,8 @@ export default function Board(/* BoardId: number */) {
             transition text-center p-1
           "
           aria-label="Close board"
+          //Might need a custom hook here or something to change the states from 2 different components
+          onClick={() => {Remove(Board)}}
         >
           &times;
         </button>

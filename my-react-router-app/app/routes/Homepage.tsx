@@ -1,8 +1,22 @@
 import Board from "Components/Board";
 import DisplayBox from "Components/DisplayBox";
+import { useState } from "react";
+import * as Utils from "Utils/HomepageUtils"
 
 export default function HomePage() {
-  const boardsArray: Array<string> = [];
+  const initialBoards: Array<Utils.BoardRecord> = [{Id:1, Color:"Blue"}, {Id:6, Color:"White"}]
+  const [Boards, setBoards] = useState<Array<Utils.BoardRecord>>(initialBoards);
+  
+  let LastBoardId: number;
+  if (Boards.length>=1){
+     LastBoardId= Boards[Boards.length-1].Id
+  }
+  
+  function RemoveBoard(Board: Utils.BoardRecord): void{
+      let newBoards = [...Boards]
+      setBoards(Utils.ManageBoardsList(Board, Boards, "Delete"))
+    }
+
   return (
     <div className="min-h-screen flex flex-col bg-[#FFF8EB]">
 
@@ -43,7 +57,8 @@ export default function HomePage() {
 
           {/* Buttons */}
           <div className="space-y-2">
-            <button className="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">
+            <button className="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+            onClick={() => setBoards(Utils.ManageBoardsList({Id:LastBoardId+1, Color:"Blue"}, Boards, "Create"))}>
               Create Board
             </button>
             <button className="w-full bg-gray-200 text-black py-2 px-4 rounded hover:bg-green-600">
@@ -56,11 +71,9 @@ export default function HomePage() {
         <section className="w-[80%] p-6 overflow-y-auto">
           {/* Flexbox with wrap */}
           <div className="flex flex-wrap gap-6 justify-evenly">
-            <Board />
-            <Board />
-            {/* <ChatBoard />
-            <ChatBoard /> */}
-            {/* Map over your boards array here */}
+            {Boards.map((board) => 
+            <Board  key={board.Id} Board={{Id:board.Id, Color:board.Color}} Remove={RemoveBoard} />
+            )}
           </div>
         </section>
       </main>
