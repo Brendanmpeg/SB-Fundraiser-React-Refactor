@@ -1,3 +1,5 @@
+import { Console } from "console";
+
 // This type consists of a box's Id as well as aBox's current state
 export type BoxRecord = [Id: number, State: string]
  
@@ -5,9 +7,10 @@ export type BoxRecord = [Id: number, State: string]
 export function HandleBoardButtonClick(givenState: string, boardState: string): string { 
     console.log(`given state = ${givenState}`)
     if (givenState === "Submit") {
+        console.log(`Board is being ${boardState}`)
         //Handle form submission details here
         //this should display the form for the appropriate actions from here
-        // setBoxSnapshot([...boxesState]);
+        //setBoxSnapshot([...boxesState]);
         return "Status"
     }
     else if (givenState === boardState) {
