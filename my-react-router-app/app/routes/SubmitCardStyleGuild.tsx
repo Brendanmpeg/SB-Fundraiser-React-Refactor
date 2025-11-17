@@ -32,7 +32,7 @@ export async function action({ request }: ActionFunctionArgs) {
 
   try {
     // Send POST to your PHP backend
-    const response = await fetch("/server/Chatexample.php", {
+    const response = await fetch("/server/TestFormSub.php", {
       method: "POST",
       body: new URLSearchParams({
         name: String(name),
