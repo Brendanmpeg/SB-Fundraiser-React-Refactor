@@ -31,8 +31,9 @@ export async function action({ request }: ActionFunctionArgs) {
   const email = formData.get("email")
 
   try {
+    const backendURL = new URL("/php/TestFormSub.php", request.url)
     // Send POST to your PHP backend
-    const response = await fetch("/server/Chatexample.php", {
+    const response = await fetch(backendURL.toString(), {
       method: "POST",
       body: new URLSearchParams({
         name: String(name),
@@ -44,10 +45,13 @@ export async function action({ request }: ActionFunctionArgs) {
       },
     })
 
-    if (!response.ok) throw new Error("Network error")
-
+    if (!response.ok) throw new Error("Network error");
+    
     // Redirect after success
-    return redirect("/Homepages/Claude")
+    console.log(response)
+    const text = await response.text();
+    console.log("Server response body:", text);
+    // return redirect("/Homepages/main")
   } catch (error) {
     console.error("Form submission failed:", error)
     return { error: "Form submission failed." }

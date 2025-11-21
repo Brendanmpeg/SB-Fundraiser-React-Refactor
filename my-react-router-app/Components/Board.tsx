@@ -79,7 +79,7 @@ export default function Board({Board, Remove}: BoardProps) {
       >
         <BoardButton label="Open" eventHandler={() => setBoardState(Utils.HandleBoardButtonClick("Open", boardState))} BoardState={boardState} />
         <BoardButton label="Sell" eventHandler={() => setBoardState(Utils.HandleBoardButtonClick("Sell", boardState))} BoardState={boardState}/>
-        <BoardButton label="Submit" eventHandler={() => setBoardState(Utils.HandleBoardButtonClick("Submit", boardState))} BoardState={boardState}/>
+        <BoardButton label="Submit" eventHandler={() => setBoardState(Utils.HandleBoardButtonClick("Submit", boardState, Board.Id))} BoardState={boardState}/>
       </div>
     </div>
   );

@@ -71,9 +71,7 @@ export default function HomePage() {
         <section className="w-[80%] p-6 overflow-y-auto">
           {/* Flexbox with wrap */}
           <div className="flex flex-wrap gap-6 justify-evenly">
-            {Boards.map((board) => 
-            <Board  key={board.Id} Board={{Id:board.Id, Color:board.Color}} Remove={RemoveBoard} />
-            )}
+            {Boards.map((board) => (<Board key={board.Id} Board={board} Remove={RemoveBoard}/>))}
           </div>
         </section>
       </main>

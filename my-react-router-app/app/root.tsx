@@ -47,8 +47,9 @@ export default function App() {
   <> {/* This fragment allows us to have UI elements independent from the route being displayed, such as a navebar */}
     <nav className="bg-blue-600 text-white p-4 gap-4">
       {" "}
-      <NavLink className="border-2 border-gray-600" to="/"> Home </NavLink>
-      <NavLink className="border-2 border-gray-600" to="/Stats"> Stats </NavLink>
+      <NavLink className="p-1 hover:bg-[#FFF8EB] hover:text-blue-600" to="/"> Home </NavLink>
+      {/* <NavLink className="p-1" to="/Stats"> Stats </NavLink> */}
+      <NavLink className="p-1 hover:bg-[#FFF8EB] hover:text-blue-600" to="/Style/SubCard"> Form </NavLink>
     </nav>
     <Outlet />
   </>
